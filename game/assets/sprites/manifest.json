@@ -1,0 +1,89 @@
+{
+  "tile": 16,
+  "sprites": {
+    "pilgrim_down": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/pilgrim_down.png"
+    },
+    "pilgrim_up": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/pilgrim_up.png"
+    },
+    "pilgrim_right": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/pilgrim_right.png"
+    },
+    "pilgrim_left": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/pilgrim_left.png"
+    },
+    "variant_down": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/variant_down.png"
+    },
+    "guardian_angel": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/guardian_angel.png"
+    },
+    "warden": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 24,
+      "file": "assets/sprites/warden.png"
+    },
+    "fallen_knight": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/fallen_knight.png"
+    },
+    "demon": {
+      "frames": 2,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/demon.png"
+    },
+    "altar": {
+      "frames": 1,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/altar.png"
+    },
+    "cross": {
+      "frames": 1,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/cross.png"
+    },
+    "chest": {
+      "frames": 1,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/chest.png"
+    },
+    "torch": {
+      "frames": 2,
+      "frame_w": 8,
+      "frame_h": 16,
+      "file": "assets/sprites/torch.png"
+    },
+    "rift": {
+      "frames": 3,
+      "frame_w": 16,
+      "frame_h": 16,
+      "file": "assets/sprites/rift.png"
+    }
+  }
+}
