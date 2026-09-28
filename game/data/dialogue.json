@@ -1,0 +1,45 @@
+{
+  "_comment": "Guardian Angel lines. Keyed by dialogue id referenced in rooms.json. Tone: gentle, scriptural cadence, never preachy. Each entry is an ordered list of lines shown one at a time.",
+
+  "intro": [
+    "You are awake in a place outside of time.",
+    "It has one law: do only what you were meant to do.",
+    "Stray from the path and the timeline will branch — and a branch is never free.",
+    "Pray at the altar. I will meet you further down."
+  ],
+
+  "first_rift_warning": [
+    "That tear in the air is a rift. It is a road you were not given.",
+    "Step through and another you begins. It will come looking.",
+    "If you must, an altar can seal it — and forgive it."
+  ],
+
+  "watched_threshold": [
+    "The dungeon has noticed you.",
+    "Find an altar. Set down what you've diverged before it sets down on you."
+  ],
+
+  "ending_router": [
+    "The path ends here.",
+    "What you did not do has kept you. Or what you took has claimed you.",
+    "The Warden will decide. Stand, Pilgrim."
+  ],
+
+  "endings": {
+    "sanctified": [
+      "You did only what you were meant to do.",
+      "The Warden lowers its spear. The way up opens.",
+      "Go in peace."
+    ],
+    "pardoned": [
+      "You strayed. You also turned back.",
+      "That turning is not nothing. I will speak for you.",
+      "The way up opens — narrow, but open."
+    ],
+    "branched": [
+      "You did what you were not meant to do.",
+      "The timeline keeps its branches. And its people.",
+      "Rest now. Someone else will wake in the cell."
+    ]
+  }
+}

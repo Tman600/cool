@@ -1,0 +1,95 @@
+{
+  "movement": {
+    "type": "grid_snapped_with_smooth_lerp",
+    "grid": 16,
+    "speed_tiles_per_sec": 4.0,
+    "facings": ["down", "up", "left", "right"],
+    "notes": "Player faces the direction of last movement input. Use the matching pilgrim_<facing> sprite. left is the mirrored right sheet if you prefer, but pilgrim_left.png is already provided."
+  },
+
+  "divergence": {
+    "description": "Core meter. Represents how far the timeline has branched from the sanctioned path. Drives enemy pressure, room corruption, and the Warden.",
+    "min": 0,
+    "max": 100,
+    "start": 0,
+    "thresholds": [
+      { "at": 25, "name": "watched",   "effect": "A Guardian Angel warning flashes. Rifts begin to shimmer (rift anim speeds up)." },
+      { "at": 50, "name": "hunted",    "effect": "A Variant spawns from the nearest rift and begins tracking the player." },
+      { "at": 75, "name": "corrupting","effect": "The current room begins corrupting: floor tiles decay 1 per 2s, some exits may seal." },
+      { "at": 100,"name": "pulled",    "effect": "The player is pulled into the branch: teleported to the room's mirror/branch layout or game-over depending on room config." }
+    ],
+    "decay_per_sec_when_no_branch": 0.5,
+    "reset_on_altar_prayer": true
+  },
+
+  "forbidden_actions": {
+    "description": "Actions that branch the timeline. Each adds divergence and may trigger consequences. Rooms mark which of these are 'forbidden' in that room via room.forbidden list; an action not listed as forbidden in a room is sanctioned and free.",
+    "catalog": [
+      { "id": "strike_unarmed",     "divergence": 20, "consequence": "spawn_variant",     "desc": "Attacking a non-hostile figure (a kneeling Fallen, a bound soul)." },
+      { "id": "take_sealed_relic",  "divergence": 30, "consequence": "corrupt_room",       "desc": "Taking a relic marked as sealed (chest with a cross seal)." },
+      { "id": "enter_rift",         "divergence": 25, "consequence": "branch_travel",       "desc": "Stepping into an active rift. Travels you into the branch room." },
+      { "id": "open_sealed_door",   "divergence": 15, "consequence": "none",               "desc": "Forcing a door you were meant to leave shut." },
+      { "id": "backtrack_locked",   "divergence": 10, "consequence": "none",               "desc": "Re-entering a room the sanctioned path had you leave." },
+      { "id": "skip_altar",         "divergence": 10, "consequence": "none",               "desc": "Leaving a room past an unlit altar you were meant to light." }
+    ]
+  },
+
+  "consequences": {
+    "spawn_variant": "Instantiate an entity of type 'variant' at the nearest rift or the player's position 3 seconds ago. See entities.variant.",
+    "corrupt_room": "Begin room corruption immediately regardless of divergence threshold (see divergence.thresholds corrupting effect).",
+    "branch_travel": "Load room.branch_of target if present; the branch is a darker mirror with stronger enemies and a relic reward. Leaving via the same rift returns you but keeps accrued divergence.",
+    "none": "Only the divergence cost applies."
+  },
+
+  "faith": {
+    "altar_prayer": {
+      "trigger": "Stand on an altar tile and hold Interact for 1.0s.",
+      "effects": [
+        "Set divergence to 0.",
+        "Create a checkpoint (save player position + room + inventory).",
+        "Seal any active rift in the room (rift becomes inert).",
+        "Despawn Variants currently hunting the player."
+      ],
+      "cost": "An altar can be prayed at once per visit; it goes dim (use altar sprite tinted darker) until the player leaves and returns."
+    },
+    "light_cross": {
+      "trigger": "Interact with an unlit cross.",
+      "effect": "Reveals the sanctioned path hint for the room (highlights the intended exit/target) and reduces divergence by 10."
+    }
+  },
+
+  "combat": {
+    "player_attack": {
+      "name": "staff_strike",
+      "range_tiles": 1,
+      "damage": 2,
+      "cooldown_sec": 0.4,
+      "note": "Striking a HOSTILE enemy is sanctioned. Striking a NON-hostile figure triggers forbidden_action strike_unarmed."
+    },
+    "player_hp": 6,
+    "iframes_sec": 0.6,
+    "damage_from_touch": true
+  },
+
+  "controls": {
+    "keyboard": {
+      "move": ["WASD", "ArrowKeys"],
+      "interact": "E or Space",
+      "attack": "J or Left-Click",
+      "pray": "hold Interact on altar"
+    },
+    "gamepad": {
+      "move": "left_stick / dpad",
+      "interact": "A",
+      "attack": "X",
+      "pray": "hold A on altar"
+    }
+  },
+
+  "win_condition": "Reach the Sanctum room with divergence below 50 and the three sealed relics NOT stolen (or stolen, for the 'branch' ending). Multiple endings keyed on final divergence and relics taken.",
+  "endings": [
+    { "id": "sanctified", "requires": "reach Sanctum, divergence < 25, no sealed relics taken", "desc": "The Warden bows. The Pilgrim ascends." },
+    { "id": "pardoned",   "requires": "reach Sanctum, divergence 25-74",                       "desc": "The Guardian Angel intercedes. Bittersweet." },
+    { "id": "branched",   "requires": "divergence reaches 100 anywhere OR reach Sanctum with all sealed relics taken", "desc": "The Pilgrim becomes a Variant. The dungeon keeps them." }
+  ]
+}

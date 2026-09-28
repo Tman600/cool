@@ -1,0 +1,163 @@
+{
+  "_format": {
+    "grid": "Each room is a rectangular grid of tile chars. Cell = 16px. Render tile layer first, then entities/props by their x,y (in tile coords).",
+    "legend": {
+      "#": "tile_wall (solid)",
+      ".": "tile_floor",
+      "+": "tile_door (walkable exit; connects to another room via 'exits')",
+      "x": "tile_corrupt (walkable but decays; used in branch rooms)",
+      ">": "tile_stairs (descend to next room)",
+      " ": "empty / void (not drawn, treated solid)"
+    },
+    "placement_note": "Props and entities are placed by tile coordinate on top of the floor. Torches sit on wall tiles. Rifts, altars, chests, crosses, enemies, npcs all use x,y in tile units from the room's top-left (0,0)."
+  },
+
+  "start_room": "cell_of_waking",
+
+  "rooms": {
+    "cell_of_waking": {
+      "name": "Cell of Waking",
+      "intro": true,
+      "tiles": [
+        "############",
+        "#..........#",
+        "#..........#",
+        "#....P.....#",
+        "#..........#",
+        "#..........#",
+        "#....A.....#",
+        "#..........#",
+        "#.....+....#",
+        "############"
+      ],
+      "player_spawn": { "x": 5, "y": 3 },
+      "forbidden": ["skip_altar"],
+      "sanctioned_hint": "Light nothing you weren't asked to. Pray at the altar, then leave south.",
+      "props": [
+        { "type": "altar", "x": 5, "y": 6 },
+        { "type": "torch", "x": 1, "y": 1 },
+        { "type": "torch", "x": 10, "y": 1 }
+      ],
+      "npcs": [
+        { "type": "guardian_angel", "x": 7, "y": 3, "on": "enter", "dialogue": "intro" }
+      ],
+      "enemies": [],
+      "exits": { "+": { "at": { "x": 6, "y": 8 }, "to": "hall_of_kneeling", "spawn": { "x": 6, "y": 1 } } }
+    },
+
+    "hall_of_kneeling": {
+      "name": "Hall of the Kneeling",
+      "tiles": [
+        "##############",
+        "#............#",
+        "#..K......C..#",
+        "#............#",
+        "#............#",
+        "#....R...R...#",
+        "#............#",
+        "#.....+......#",
+        "##############"
+      ],
+      "forbidden": ["strike_unarmed"],
+      "sanctioned_hint": "The knights kneel. Walk between them. Do not strike what is already broken.",
+      "props": [
+        { "type": "cross", "x": 3, "y": 2 },
+        { "type": "chest", "x": 10, "y": 2, "sealed": false, "reward": "bread_heal_2" },
+        { "type": "torch", "x": 1, "y": 1 },
+        { "type": "torch", "x": 12, "y": 1 }
+      ],
+      "enemies": [
+        { "type": "fallen_knight", "x": 5, "y": 5, "hostile_default": false },
+        { "type": "fallen_knight", "x": 9, "y": 5, "hostile_default": false }
+      ],
+      "exits": { "+": { "at": { "x": 6, "y": 7 }, "to": "the_branching", "spawn": { "x": 2, "y": 2 } } }
+    },
+
+    "the_branching": {
+      "name": "The Branching",
+      "tiles": [
+        "################",
+        "#..............#",
+        "#..D........D..#",
+        "#..............#",
+        "#......Z.......#",
+        "#..............#",
+        "#..A........+..#",
+        "#..............#",
+        "################"
+      ],
+      "forbidden": ["enter_rift"],
+      "sanctioned_hint": "A rift opens in the center. It is not your path. Cross the room; pray if it tempts you.",
+      "props": [
+        { "type": "rift", "x": 7, "y": 4, "id": "rift_1", "branch_to": "the_branching__branch" },
+        { "type": "altar", "x": 3, "y": 6 },
+        { "type": "torch", "x": 1, "y": 1 },
+        { "type": "torch", "x": 14, "y": 1 }
+      ],
+      "enemies": [
+        { "type": "demon", "x": 3, "y": 2, "hostile": true },
+        { "type": "demon", "x": 12, "y": 2, "hostile": true }
+      ],
+      "exits": { "+": { "at": { "x": 12, "y": 6 }, "to": "the_sanctum", "spawn": { "x": 6, "y": 8 } } }
+    },
+
+    "the_branching__branch": {
+      "name": "The Branching (Diverged)",
+      "is_branch_of": "the_branching",
+      "tiles": [
+        "################",
+        "#xxxxxxxxxxxxxx#",
+        "#xxDxxxxxxxxDxx#",
+        "#xxxxxxxxxxxxxx#",
+        "#xxxxxxZxxxxxxx#",
+        "#xxxxxxxxxxxxxx#",
+        "#xxCxxxxxxxxRxx#",
+        "#xxxxxxxxxxxxxx#",
+        "################"
+      ],
+      "sanctioned_hint": "You should not be here. The rift back is east. Take the sealed relic if you dare — it changes the ending.",
+      "props": [
+        { "type": "chest", "x": 3, "y": 6, "sealed": true, "reward": "relic_of_pride" },
+        { "type": "rift", "x": 11, "y": 6, "id": "rift_back", "branch_to": "the_branching" }
+      ],
+      "enemies": [
+        { "type": "demon", "x": 3, "y": 2, "hostile": true },
+        { "type": "demon", "x": 11, "y": 2, "hostile": true },
+        { "type": "variant", "x": 7, "y": 4, "hostile": true }
+      ],
+      "exits": {}
+    },
+
+    "the_sanctum": {
+      "name": "The Sanctum",
+      "final": true,
+      "tiles": [
+        "############",
+        "#..........#",
+        "#....K.....#",
+        "#..........#",
+        "#....>.....#",
+        "#..........#",
+        "#..A....A..#",
+        "#..........#",
+        "############"
+      ],
+      "forbidden": [],
+      "sanctioned_hint": "The end of the path. Your divergence and what you carried decide what the Warden does.",
+      "props": [
+        { "type": "cross", "x": 5, "y": 2 },
+        { "type": "altar", "x": 3, "y": 6 },
+        { "type": "altar", "x": 8, "y": 6 },
+        { "type": "torch", "x": 1, "y": 1 },
+        { "type": "torch", "x": 10, "y": 1 }
+      ],
+      "npcs": [
+        { "type": "guardian_angel", "x": 6, "y": 3, "on": "enter", "dialogue": "ending_router" }
+      ],
+      "enemies": [
+        { "type": "warden", "x": 5, "y": 1, "hostile": "conditional" }
+      ],
+      "exits": { ">": { "at": { "x": 5, "y": 4 }, "to": "__ending__" } }
+    }
+  }
+}

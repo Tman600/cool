@@ -1,0 +1,84 @@
+{
+  "_comment": "Every entity references a sprite key from assets/sprites/manifest.json. anim_fps is frames per second for the sprite strip.",
+
+  "player": {
+    "id": "pilgrim",
+    "name": "The Pilgrim",
+    "sprites": {
+      "down": "pilgrim_down",
+      "up": "pilgrim_up",
+      "left": "pilgrim_left",
+      "right": "pilgrim_right"
+    },
+    "anim_fps": 6,
+    "hp": 6,
+    "hitbox": { "w": 8, "h": 10, "offset_x": 4, "offset_y": 5 }
+  },
+
+  "enemies": {
+    "variant": {
+      "name": "Variant",
+      "sprite": "variant_down",
+      "anim_fps": 8,
+      "hostile": true,
+      "hp": 4,
+      "damage": 1,
+      "speed_tiles_per_sec": 3.6,
+      "behavior": "ghost_pursuit",
+      "behavior_notes": "Spawns from a branch. Chases the player along the player's OWN recent path (record player positions in a ring buffer; the Variant follows that trail, ~3s behind). Cannot be permanently killed while divergence is high; despawns on altar prayer. Deals damage on touch.",
+      "spawned_by": "divergence >= 50 or forbidden_action spawn_variant"
+    },
+    "fallen_knight": {
+      "name": "Fallen Knight",
+      "sprite": "fallen_knight",
+      "anim_fps": 4,
+      "hostile_default": false,
+      "hp": 5,
+      "damage": 2,
+      "speed_tiles_per_sec": 2.2,
+      "behavior": "kneeling_until_provoked",
+      "behavior_notes": "Starts KNEELING and non-hostile. Striking it while non-hostile is the forbidden action strike_unarmed. If the player passes without striking, it stays dormant. Some rooms mark it hostile_default=true (already risen) — then it patrols and is a sanctioned kill."
+    },
+    "demon": {
+      "name": "Demon",
+      "sprite": "demon",
+      "anim_fps": 8,
+      "hostile": true,
+      "hp": 3,
+      "damage": 1,
+      "speed_tiles_per_sec": 3.0,
+      "behavior": "hover_swoop",
+      "behavior_notes": "Hovers, then swoops toward the player when within 4 tiles. A sanctioned kill (always hostile). Floats — ignores floor corruption."
+    },
+    "warden": {
+      "name": "The Warden",
+      "sprite": "warden",
+      "anim_fps": 3,
+      "hostile": "conditional",
+      "hp": 20,
+      "damage": 3,
+      "speed_tiles_per_sec": 2.6,
+      "behavior": "enforcer",
+      "behavior_notes": "An archangel. Passive/idle while divergence < 75. At divergence >= 75 it enters the room and pursues the player with slow, heavy strikes. Cannot be killed by staff; the only escape is to lower divergence (altar prayer) — then the Warden withdraws. Acts as a soft timer / punishment for reckless branching."
+    }
+  },
+
+  "npcs": {
+    "guardian_angel": {
+      "name": "Guardian Angel",
+      "sprite": "guardian_angel",
+      "anim_fps": 4,
+      "role": "guide",
+      "behavior": "hover_beside_player_on_events",
+      "behavior_notes": "Appears at key moments: first rift, first forbidden temptation, divergence 'watched' threshold, and the final room. Delivers dialogue lines (see dialogue.json). Not a combatant; floats and fades in/out."
+    }
+  },
+
+  "props": {
+    "altar":  { "sprite": "altar",  "solid": true,  "interact": "pray",        "note": "See mechanics.faith.altar_prayer." },
+    "cross":  { "sprite": "cross",  "solid": true,  "interact": "light_cross", "note": "See mechanics.faith.light_cross." },
+    "chest":  { "sprite": "chest",  "solid": true,  "interact": "open",        "note": "If sealed=true, opening is forbidden_action take_sealed_relic. If sealed=false, gives a normal reward." },
+    "torch":  { "sprite": "torch",  "solid": false, "interact": null,          "anim_fps": 6, "note": "Wall decoration + light source. Place on wall tiles." },
+    "rift":   { "sprite": "rift",   "solid": false, "interact": "enter_rift",  "anim_fps": 6, "note": "A timeline branch. Stepping in is forbidden_action enter_rift. Sealed by altar prayer (becomes inert, stop animating)." }
+  }
+}
