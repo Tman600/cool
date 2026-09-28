@@ -1,0 +1,15 @@
+{
+  "title": "SANCTIONED",
+  "tagline": "You cannot do what you were not meant to do.",
+  "version": "0.1.0",
+  "perspective": "third_person_top_down",
+  "tile_size": 16,
+  "render_scale": 3,
+  "premise": "A Pilgrim descends a dungeon that sits outside sacred time. The place enforces a single sanctioned path. Every forbidden act BRANCHES the timeline: it spawns a Variant of the Pilgrim and risks either pulling the Pilgrim into the branch or corrupting the room they stand in. Christian iconography (altars, crosses, a Guardian Angel) marks the sanctioned path; the Warden, an archangel, hunts branches.",
+  "pillars": [
+    "Restraint is power: the safe route is to do only what you were meant to do.",
+    "Branching is a resource and a risk, never free.",
+    "The dungeon reacts to divergence: enemies, corruption, the Warden.",
+    "Faith mechanics (prayer at altars) are how you undo or seal branches."
+  ]
+}
